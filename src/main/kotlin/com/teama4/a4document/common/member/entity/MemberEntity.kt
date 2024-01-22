@@ -1,5 +1,6 @@
 package com.teama4.a4document.common.member.entity
 
+import com.teama4.a4document.common.member.type.UserRole
 import jakarta.persistence.*
 
 @Entity
