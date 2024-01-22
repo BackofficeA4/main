@@ -20,6 +20,7 @@ class CommentEntity(
 	@Column
 	val postId: Long,
 
+
 	) {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
