@@ -1,44 +1,81 @@
 package com.teama4.a4document.api.post.service
 
+import com.teama4.a4document.domain.exception.ModelNotFoundException
 import com.teama4.a4document.domain.post.comment.dto.CommentResponseDto
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentDto
 import com.teama4.a4document.domain.post.comment.dto.UpdateCommentDto
 import com.teama4.a4document.domain.post.comment.entity.CommentEntity
+import com.teama4.a4document.domain.post.comment.repository.CommentRepository
 import com.teama4.a4document.domain.post.comment.service.CommentService
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
 class CommentController(
 
     private val commentService: CommentService
+    val commentRepository: CommentRepository,
+    val postRepository: PostRepository
 
 ) {
 
-    fun createComment(createCommentDto: CreatCommentDto, postId:Long, user:CustomUser):CommentResponseDto{
-        return commentService.createComment(createCommentDto,postId,user)
+    @Transactional
+    fun createComment(
+        creatCommentDto: CreatCommentDto,
+        postId: Long,
+        user: CustomUser
+    ): CommentResponseDto {
+        val targetPost = postRepository.findByIdOrNull(postId)
+            ?: throw ModelNotFoundException("post", postId)
+        val commentEntity = CommentEntity(
+            content = creatCommentDto.content,
+            postId = targetPost.postId!!,
+            userId = user.username.toLong()
+        )
+        val result = commentRepository.save(commentEntity)
+        return CommentResponseDto.from(result)
     }
 
-    fun findByCommentId(commentId: Long):CommentEntity{
-        return commentService.findByCommentId(commentId)
+
+    fun findByCommentId(commentId: Long): CommentEntity {
+        val foundComment = commentRepository.findByIdOrNull(commentId)
+            ?: throw ModelNotFoundException("comment", commentId)
+        return foundComment
     }
 
-    fun findAllCommentList(postId: Long):List<CommentResponseDto>{
-        return commentService.findAllCommentList(postId)
+    fun findAllCommentList(postId: Long): List<CommentEntity> {
+        val foundComments = commentRepository.findAllByPostId(postId)
+        return foundComments
     }
 
-    fun updateComment(updateCommentDto: UpdateCommentDto, postId: Long, commentId: Long):CommentResponseDto{
-        return commentService.updateComment(updateCommentDto,postId,commentId)
+    @Transactional
+    fun updateComment(
+        updateCommentDto: UpdateCommentDto,
+        postId: Long,
+        commentId: Long
+    ): CommentResponseDto {
+        val foundComment = commentRepository.findByPostIdAndCommentId(postId, commentId)
+            ?: throw ModelNotFoundException("comment", commentId)
+
+        foundComment.changeUpdateComment(updateCommentDto)
+        commentRepository.save(foundComment)
+        return CommentResponseDto
     }
 
-    fun deleteComment(postId: Long, commentId: Long){
-        return commentService.deleteComment(postId,commentId)
+    @Transactional
+    fun deleteComment(postId: Long, commentId: Long) {
+        val foundComment = commentRepository.findByPostIdAndCommentId(postId, commentId)
+            ?: throw ModelNotFoundException("comment", commentId)
+
+        commentRepository.delete(foundComment)
     }
 
-    fun getCreatedId(postId: Long, commentId: Long):Long{
-        return commentService.getCreatedId(postId,commentId)
+    fun getCreatedId(postId: Long, commentId: Long): Long {
+        return commentRepository.findByPostIdAndCommentId(postId, commentId)?.userId
+            ?: throw ModelNotFoundException("post", postId)
     }
-
 
 
 
