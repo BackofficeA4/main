@@ -37,5 +37,4 @@ class CommentEntity(
 		this.content = updateCommentArguments.content
 	}
 
-
 }
