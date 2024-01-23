@@ -35,6 +35,7 @@ class CommentServiceImpl(
         return CommentDto.from(result)
     }
 
+
     override fun findByCommentId(commentId: Long): CommentDto {
         val foundComment = commentRepository.findByIdOrNull(commentId)
             ?: throw ModelNotFoundException("comment", commentId)
