@@ -1,8 +1,7 @@
 package com.teama4.a4document.common.member.service
 
-import com.teama4.a4document.common.member.dto.SignInRequest
+import com.teama4.a4document.common.member.dto.SignRequest
 import com.teama4.a4document.common.member.dto.SignInResponse
-import com.teama4.a4document.common.member.dto.SignupRequest
 import com.teama4.a4document.common.member.dto.SignupResponse
 import com.teama4.a4document.common.member.entity.MemberEntity
 import com.teama4.a4document.common.member.entity.toSignupResponse
@@ -23,11 +22,11 @@ class MemberService(
 
     // 회원가입
     @Transactional
-    fun signUp(signUpRequest: SignupRequest): SignupResponse {
-        if (memberRepository.existsByEmail(signUpRequest.email)) throw DuplicateAccess()
+    fun signUp(signRequest: SignRequest): SignupResponse {
+        if (memberRepository.existsByEmail(signRequest.email)) throw DuplicateAccess()
         val member = MemberEntity(
-            email = signUpRequest.email,
-            password = passwordEncoder.encode(signUpRequest.password),
+            email = signRequest.email,
+            password = passwordEncoder.encode(signRequest.password),
             role = UserRole.USER,
             refresh = null
         )
@@ -37,7 +36,7 @@ class MemberService(
 
     // 로그인
     @Transactional
-    fun signIn(signInRequest: SignInRequest): SignInResponse {
+    fun signIn(signInRequest: SignRequest): SignInResponse {
         val member = memberRepository.findByEmail(signInRequest.email) ?: TODO("가입된 이메일 없을 때 예외처리")
         if(!passwordEncoder.matches(signInRequest.password, member.password)) throw PasswordMismatchException()
         val accessToken = jwtPlugin.makeAccessToken(signInRequest.email)
