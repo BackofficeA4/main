@@ -34,7 +34,6 @@ class CommentEntity(
 	@Column(name = "create_name")
 	var createName: String? = null
 
-
 	fun changeUpdateComment(updateCommentArguments: UpdateCommentArguments) {
 		this.content = updateCommentArguments.content
 	}
