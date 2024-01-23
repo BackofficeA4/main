@@ -35,4 +35,6 @@ fun MemberEntity.toSignupResponse(): SignupResponse {
 	return SignupResponse(
 		email = email
 	)
+
+
 }
