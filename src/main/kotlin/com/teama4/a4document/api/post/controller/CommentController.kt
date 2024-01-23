@@ -1,12 +1,10 @@
-package com.teama4.a4document.domain.post.comment.controller
+package com.teama4.a4document.api.post.controller
 
-
-import com.teama4.a4document.domain.post.comment.dto.CommentDto
-import com.teama4.a4document.domain.post.comment.dto.CreatCommentArguments
-import com.teama4.a4document.domain.post.comment.dto.UpdateCommentArguments
-import com.teama4.a4document.domain.post.comment.service.CommentService
 import com.teama4.a4document.domain.exception.ForbiddenException
-import com.teama4.a4document.common.member.entity.CustomMember
+import com.teama4.a4document.domain.post.comment.dto.CommentResponseDto
+import com.teama4.a4document.domain.post.comment.dto.CreatCommentDto
+import com.teama4.a4document.domain.post.comment.dto.UpdateCommentDto
+import com.teama4.a4document.domain.post.comment.service.CommentService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -20,7 +18,9 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/posts/{postId}/comments")
 @RestController
 class CommentController(
-    val commentService: CommentService
+
+    val commentApiService: CommentService
+
 ) {
 
     @PreAuthorize("hasRole('MEMBER')")
@@ -28,10 +28,10 @@ class CommentController(
     @PostMapping
     fun createComment(
         @PathVariable postId: Long,
-        @Valid @RequestBody creatCommentArguments: CreatCommentArguments,
+        @Valid @RequestBody creatCommentDto: CreatCommentDto,
         @AuthenticationPrincipal user: CustomMember
-    ): ResponseEntity<CommentDto> {
-        val result = commentService.createComment(creatCommentArguments, postId, user)
+    ): ResponseEntity<CommentResponseDto> {
+        val result = commentApiService.createComment(creatCommentDto, postId, user)
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(result)
@@ -42,8 +42,8 @@ class CommentController(
     fun findComment(
         @PathVariable postId: Long,
         @PathVariable commentId: Long
-    ): ResponseEntity<CommentDto> {
-        val result = commentService.findByCommentId(commentId)
+    ): ResponseEntity<CommentResponseDto> {
+        val result = commentApiService.findByCommentId(commentId)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(result)
@@ -53,8 +53,8 @@ class CommentController(
     @GetMapping
     fun getCommentList(
         @PathVariable postId: Long
-    ): ResponseEntity<List<CommentDto>> {
-        val result = commentService.findAllCommentList(postId)
+    ): ResponseEntity<List<CommentResponseDto>> {
+        val result = commentApiService.findAllCommentList(postId)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(result)
@@ -65,18 +65,18 @@ class CommentController(
     fun updateComment(
         @PathVariable postId: Long,
         @PathVariable commentId: Long,
-        @Valid @RequestBody updateCommentArguments: UpdateCommentArguments,
+        @Valid @RequestBody updateCommentDto: UpdateCommentDto,
         @AuthenticationPrincipal user: CustomMember
-    ): ResponseEntity<CommentDto> {
-        if (commentService.getCreatedId(
+    ): ResponseEntity<CommentResponseDto> {
+        if (commentApiService.getCreatedId(
                 postId,
                 commentId
             ) != user.username.toLong()
         ) throw ForbiddenException("수정 권한이 없습니다.")
-        val arguments = UpdateCommentArguments(
-            content = updateCommentArguments.content
+        val arguments = UpdateCommentDto(
+            content = updateCommentDto.content
         )
-        val comment = commentService.updateComment(arguments, postId, commentId)
+        val comment = commentApiService.updateComment(arguments, postId, commentId)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(comment)
@@ -89,12 +89,12 @@ class CommentController(
         @PathVariable commentId: Long,
         @AuthenticationPrincipal user: CustomMember
     ): ResponseEntity<Unit> {
-        if (commentService.getCreatedId(
+        if (commentApiService.getCreatedId(
                 postId,
                 commentId
             ) != user.username.toLong()
         ) throw ForbiddenException("삭제 권한이 없습니다.")
-        commentService.deleteComment(postId, commentId)
+        commentApiService.deleteComment(postId, commentId)
         return ResponseEntity
             .status(HttpStatus.OK)
             .build()
