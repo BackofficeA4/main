@@ -1,10 +1,10 @@
 package com.teama4.a4document.api.post.controller
 
+import com.teama4.a4document.api.post.service.CommentApiService
 import com.teama4.a4document.domain.exception.ForbiddenException
 import com.teama4.a4document.domain.post.comment.dto.CommentResponseDto
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentDto
 import com.teama4.a4document.domain.post.comment.dto.UpdateCommentDto
-import com.teama4.a4document.domain.post.comment.service.CommentService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class CommentController(
 
-    val commentApiService: CommentService
+    val commentApiService: CommentApiService
 
 ) {
 

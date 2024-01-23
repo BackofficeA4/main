@@ -5,7 +5,6 @@ import com.teama4.a4document.domain.post.comment.dto.CommentResponseDto
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentDto
 import com.teama4.a4document.domain.post.comment.dto.UpdateCommentDto
 import com.teama4.a4document.domain.post.comment.entity.CommentEntity
-import com.teama4.a4document.domain.post.comment.repository.CommentRepository
 import com.teama4.a4document.domain.post.comment.service.CommentService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -13,11 +12,9 @@ import org.springframework.transaction.annotation.Transactional
 
 
 @Service
-class CommentController(
+class CommentApiService(
 
-    private val commentService: CommentService
-    val commentRepository: CommentRepository,
-    val postRepository: PostRepository
+    val commentService: CommentService
 
 ) {
 
@@ -27,15 +24,7 @@ class CommentController(
         postId: Long,
         user: CustomUser
     ): CommentResponseDto {
-        val targetPost = postRepository.findByIdOrNull(postId)
-            ?: throw ModelNotFoundException("post", postId)
-        val commentEntity = CommentEntity(
-            content = creatCommentDto.content,
-            postId = targetPost.postId!!,
-            userId = user.username.toLong()
-        )
-        val result = commentRepository.save(commentEntity)
-        return CommentResponseDto.from(result)
+        return CommentResponseDto
     }
 
 
@@ -56,11 +45,6 @@ class CommentController(
         postId: Long,
         commentId: Long
     ): CommentResponseDto {
-        val foundComment = commentRepository.findByPostIdAndCommentId(postId, commentId)
-            ?: throw ModelNotFoundException("comment", commentId)
-
-        foundComment.changeUpdateComment(updateCommentDto)
-        commentRepository.save(foundComment)
         return CommentResponseDto
     }
 
