@@ -28,16 +28,16 @@ class JwtPlugin() {
 		}
 	}
 
-	fun generateAccessToken(subject: Long, role: String): String {
+	fun generateAccessToken(subject: String, role: String): String {
 		return generateToken(subject, role, Duration.ofHours(ACCESS_TOKEN_EXPIRATION_HOUR))
 	}
 
-	fun generateRefreshToken(subject: Long, role: String): String{
+	fun generateRefreshToken(subject: String, role: String): String{
 		return generateToken(subject, role, Duration.ofHours(REFRESH_TOKEN_EXPIRATION_HOUR))
 	}
 
 
-	private fun generateToken(subject: Long, role: String, expirationPeriod: Duration): String {
+	private fun generateToken(subject: String, role: String, expirationPeriod: Duration): String {
 		val claims: Claims = Jwts.claims()
 			.add(mapOf("role" to role))
 			.build()

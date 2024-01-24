@@ -1,5 +1,6 @@
 package com.teama4.a4document.common.member.auth.jwt
 
+import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.infra.security.UserPrincipal
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.IncorrectClaimException
@@ -14,7 +15,7 @@ import org.springframework.security.core.Authentication
 
 @Component
 class JwtAuthenticationProvider(
-	private val memberEntityRepository: MemberEntityRepository,
+	private val memberRepository: MemberRepository,
 	private val jwtPlugin: JwtPlugin
 ) : AuthenticationProvider {
 
@@ -27,12 +28,12 @@ class JwtAuthenticationProvider(
 	 *  2. member에서 Refresh Token을 가져와 시간이 만료되었는지 확인
 	 *  3. Refresh Token이 만료 되었을 경우 재로그인 필요 Exception
 	 */
-	fun loadUser(userId: Long, role: String) =
-		memberEntityRepository.findByIdOrNull(userId)
+	fun loadUser(userId: String, role: String) =
+		memberRepository.findByEmail(userId)
 			?.let { UserPrincipal(userId, setOf(role)) }
 			?: throw TODO("멤버 찾지 못함")
 
-	fun getAuthentication(userId: Long, role: String) =
+	fun getAuthentication(userId: String, role: String) =
 		generateAuthenticationToken(loadUser(userId, role))
 
 
@@ -53,7 +54,7 @@ class JwtAuthenticationProvider(
 					}.getOrThrow()
 			}
 			.let {
-				val id = it.payload.subject.toLong()
+				val id = it.payload.subject
 				val role = it.payload.get("role", String::class.java)
 				getAuthentication(id, role)
 			}

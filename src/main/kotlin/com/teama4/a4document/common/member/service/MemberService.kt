@@ -1,5 +1,6 @@
 package com.teama4.a4document.common.member.service
 
+import com.teama4.a4document.common.member.auth.jwt.JwtPlugin
 import com.teama4.a4document.common.member.dto.SignRequest
 import com.teama4.a4document.common.member.dto.SignInResponse
 import com.teama4.a4document.common.member.dto.SignupResponse
@@ -36,14 +37,14 @@ class MemberService(
 
     // 로그인
     @Transactional
-    fun signIn(signInRequest: SignRequest): SignInResponse {
-        val member = memberRepository.findByEmail(signInRequest.email) ?: TODO("가입된 이메일 없을 때 예외처리")
-        if(!passwordEncoder.matches(signInRequest.password, member.password)) throw PasswordMismatchException()
-        val accessToken = jwtPlugin.makeAccessToken(signInRequest.email)
-        val refreshToken = jwtPlugin.makeRefeshTokn(signInRequest.email)
+    fun signIn(signRequest: SignRequest): SignInResponse {
+        val member = memberRepository.findByEmail(signRequest.email) ?: TODO("가입된 이메일 없을 때 예외처리")
+        if(!passwordEncoder.matches(signRequest.password, member.password)) throw PasswordMismatchException()
+        val accessToken = jwtPlugin.generateAccessToken(signRequest.email, role = member.role.name)
+        val refreshToken = jwtPlugin.generateRefreshToken(signRequest.email, role = member.role.name)
 
         return SignInResponse(
-            email = signInRequest.email,
+            email = signRequest.email,
             accessToken = accessToken,
             refreshToken = refreshToken
         )
