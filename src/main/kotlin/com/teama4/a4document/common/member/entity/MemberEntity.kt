@@ -8,7 +8,7 @@ import jakarta.persistence.*
 @Table(name = "member")
 class MemberEntity(
 
-	@Column(name = "email")
+	@Column(name = "email", unique = true)
 	var email: String,
 
 	@Column(name = "password")
@@ -25,7 +25,6 @@ class MemberEntity(
 
 	@Column(name = "key")
 	val refresh: String?
-
 ){
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long? = null
@@ -35,9 +34,4 @@ fun MemberEntity.toSignupResponse(): SignupResponse {
 	return SignupResponse(
 		email = email
 	)
-
-
-
-
-
 }

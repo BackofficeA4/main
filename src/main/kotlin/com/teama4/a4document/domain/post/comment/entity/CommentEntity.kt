@@ -1,7 +1,11 @@
 package com.teama4.a4document.domain.post.comment.entity
 
+import com.teama4.a4document.common.member.entity.MemberEntity
 import com.teama4.a4document.domain.post.comment.dto.UpdateCommentDto
+import com.teama4.a4document.domain.post.entity.PostEntity
 import jakarta.persistence.*
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -16,11 +20,12 @@ class CommentEntity(
 	@Column
 	var content: String,
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	val memberId: Long,
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	val postId: Long,
+	val memberId: MemberEntity,
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	val postEntity: PostEntity
 
 	) {
 	@Id

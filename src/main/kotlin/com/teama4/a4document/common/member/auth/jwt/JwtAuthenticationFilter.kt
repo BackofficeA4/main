@@ -13,10 +13,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 class JwtAuthenticationFilter() : AbstractAuthenticationProcessingFilter(AntPathRequestMatcher("/**")) {
 
-	override fun attemptAuthentication(request: HttpServletRequest?, response: HttpServletResponse?): Authentication {
+	override fun attemptAuthentication(request: HttpServletRequest?, response: HttpServletResponse?): Authentication? {
 		return request?.getHeader(HttpHeaders.AUTHORIZATION)
 			?.let { this.authenticationManager.authenticate(JwtPreAuthenticationToken(it)) }
-			?: throw TODO("AuthenticationException을 상속받은 CustomException 만들고 던지기")
 	}
 
 	override fun successfulAuthentication(
