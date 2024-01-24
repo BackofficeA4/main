@@ -1,6 +1,6 @@
 package com.teama4.a4document.domain.post.comment.entity
 
-import com.teama4.a4document.domain.post.comment.dto.UpdateCommentArguments
+import com.teama4.a4document.domain.post.comment.dto.UpdateCommentDto
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -39,8 +39,8 @@ class CommentEntity(
 	@Column(name = "update_at")
 	var updateAt: LocalDateTime? = null
 
-	fun changeUpdateComment(updateCommentArguments: UpdateCommentArguments) {
-		this.content = updateCommentArguments.content
+	fun changeUpdateComment(updateCommentDto: UpdateCommentDto) {
+		this.content = updateCommentDto.content
 	}
 
 }
