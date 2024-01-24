@@ -24,7 +24,7 @@ class MemberEntity(
 //	val status: Status = Status.FALSE,
 
 	@Column(name = "key")
-	val key: String?
+	val refresh: String?
 
 ){
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +35,8 @@ fun MemberEntity.toSignupResponse(): SignupResponse {
 	return SignupResponse(
 		email = email
 	)
+
+
 
 
 
