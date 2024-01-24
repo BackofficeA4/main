@@ -1,8 +1,10 @@
 package com.teama4.a4document.domain.post.comment.entity
 
+import com.teama4.a4document.domain.post.comment.dto.UpdateCommentArguments
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 
@@ -14,10 +16,10 @@ class CommentEntity(
 	@Column
 	var content: String,
 
-	@Column
+	@ManyToOne(fetch = FetchType.LAZY)
 	val memberId: Long,
 
-	@Column
+	@ManyToOne(fetch = FetchType.LAZY)
 	val postId: Long,
 
 	) {
@@ -33,6 +35,9 @@ class CommentEntity(
 	@Column(name = "create_name")
 	var createName: String? = null
 
+	@LastModifiedDate
+	@Column(name = "update_at")
+	var updateAt: LocalDateTime? = null
 
 	fun changeUpdateComment(updateCommentArguments: UpdateCommentArguments) {
 		this.content = updateCommentArguments.content
