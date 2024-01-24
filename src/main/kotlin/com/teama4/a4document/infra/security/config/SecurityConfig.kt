@@ -19,12 +19,15 @@ class SecurityConfig(
 ) {
 
 	@Bean
-	fun securityConfig(http: HttpSecurity): DefaultSecurityFilterChain{
+	fun securityConfig(http: HttpSecurity): DefaultSecurityFilterChain {
 		return http
 			.httpBasic { it.disable() }
 			.formLogin { it.disable() }
 			.csrf { it.disable() }
 			.cors { it.disable() }
+			.headers {
+				it.frameOptions { frameOptionConfig -> frameOptionConfig.disable() }
+			}
 			.authorizeHttpRequests {
 				it.requestMatchers(HttpMethod.GET, "/api/todo/**").permitAll()
 				it.requestMatchers(
@@ -32,7 +35,7 @@ class SecurityConfig(
 					"/swagger-ui/**",
 					"/v3/api-docs/**",
 				).permitAll()
-					.anyRequest().authenticated()
+					.anyRequest().permitAll()
 			}
 			.addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
 			.build()

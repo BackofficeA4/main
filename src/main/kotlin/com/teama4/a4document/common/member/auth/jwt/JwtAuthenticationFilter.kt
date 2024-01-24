@@ -1,7 +1,6 @@
 package com.teama4.a4document.common.member.auth.jwt
 
 
-import com.sparta.todoapp.common.member.auth.jwt.JwtPreAuthenticationToken
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -10,9 +9,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
-
-
-const val ATTRIBUTE_JWT_TOKEN = "JWT_TOKEN_ATTRIBUTE"
 
 
 class JwtAuthenticationFilter() : AbstractAuthenticationProcessingFilter(AntPathRequestMatcher("/**")) {
@@ -39,5 +35,6 @@ class JwtAuthenticationFilter() : AbstractAuthenticationProcessingFilter(AntPath
 		failed: AuthenticationException?
 	) {
 		super.unsuccessfulAuthentication(request, response, failed)
+
 	}
 }

@@ -1,4 +1,4 @@
-package com.sparta.todoapp.common.member.auth.jwt
+package com.teama4.a4document.common.member.auth.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
@@ -28,16 +28,16 @@ class JwtPlugin() {
 		}
 	}
 
-	fun generateAccessToken(subject: String, role: String): String {
+	fun generateAccessToken(subject: Long, role: String): String {
 		return generateToken(subject, role, Duration.ofHours(ACCESS_TOKEN_EXPIRATION_HOUR))
 	}
 
-	fun generateRefreshToken(subject: String, role: String): String{
+	fun generateRefreshToken(subject: Long, role: String): String{
 		return generateToken(subject, role, Duration.ofHours(REFRESH_TOKEN_EXPIRATION_HOUR))
 	}
 
 
-	private fun generateToken(subject: String, role: String, expirationPeriod: Duration): String {
+	private fun generateToken(subject: Long, role: String, expirationPeriod: Duration): String {
 		val claims: Claims = Jwts.claims()
 			.add(mapOf("role" to role))
 			.build()
@@ -46,7 +46,7 @@ class JwtPlugin() {
 		val now = Instant.now()
 
 		return Jwts.builder()
-			.subject(subject)
+			.subject(subject.toString())
 			.issuer(ISSUER)
 			.issuedAt(Date.from(now))
 			.expiration(Date.from(now.plus(expirationPeriod)))
