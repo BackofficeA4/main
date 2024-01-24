@@ -29,14 +29,13 @@ class SecurityConfiguration(
 				it.frameOptions { frameOptionConfig -> frameOptionConfig.disable() }
 			}
 			.authorizeHttpRequests {
-				it.requestMatchers(HttpMethod.GET, "/api/todo/**").permitAll()
 				it.requestMatchers(
-					"/api/auth/**",
+					"/auth/**",
 					"/swagger-ui/**",
 					"/v3/api-docs/**",
 					"/h2-console/**"
 				).permitAll()
-					.anyRequest().permitAll()
+					.anyRequest().authenticated()
 			}
 			.addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
 			.build()

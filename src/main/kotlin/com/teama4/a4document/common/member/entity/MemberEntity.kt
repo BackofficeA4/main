@@ -23,7 +23,7 @@ class MemberEntity(
 //	@Column(name = "status", nullable = false)
 //	val status: Status = Status.FALSE,
 
-	@Column(name = "key")
+	@Column(name = "refresh")
 	val refresh: String?
 ){
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

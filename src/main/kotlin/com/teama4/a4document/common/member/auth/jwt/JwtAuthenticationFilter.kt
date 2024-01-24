@@ -13,9 +13,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 class JwtAuthenticationFilter() : AbstractAuthenticationProcessingFilter(AntPathRequestMatcher("/**")) {
 
-	override fun attemptAuthentication(request: HttpServletRequest?, response: HttpServletResponse?): Authentication? {
+	override fun attemptAuthentication(request: HttpServletRequest?, response: HttpServletResponse?): Authentication {
 		return request?.getHeader(HttpHeaders.AUTHORIZATION)
 			?.let { this.authenticationManager.authenticate(JwtPreAuthenticationToken(it)) }
+			?: JwtPreAuthenticationToken("안됨")
 	}
 
 	override fun successfulAuthentication(
@@ -34,6 +35,5 @@ class JwtAuthenticationFilter() : AbstractAuthenticationProcessingFilter(AntPath
 		failed: AuthenticationException?
 	) {
 		super.unsuccessfulAuthentication(request, response, failed)
-
 	}
 }
