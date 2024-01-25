@@ -17,11 +17,10 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
-    private val passwordEncoder: PasswordEncoder, // 암호화 구현체
-    private val jwtPlugin: JwtPlugin // jwt 발급
+    private val passwordEncoder: PasswordEncoder,
+    private val jwtPlugin: JwtPlugin
 ) {
 
-    // 회원가입
     @Transactional
     fun signUp(signRequest: SignRequest): SignupResponse {
         if (memberRepository.existsByEmail(signRequest.email)) throw DuplicateAccess()
@@ -35,7 +34,6 @@ class MemberService(
         return member.toSignupResponse()
     }
 
-    // 로그인
     @Transactional
     fun signIn(signRequest: SignRequest): SignInResponse {
         val member = memberRepository.findByEmail(signRequest.email) ?: TODO("가입된 이메일 없을 때 예외처리")

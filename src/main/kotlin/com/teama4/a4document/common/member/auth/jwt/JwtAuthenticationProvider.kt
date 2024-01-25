@@ -5,10 +5,13 @@ import com.teama4.a4document.common.member.auth.jwt.token.JwtAuthenticationToken
 import com.teama4.a4document.common.member.auth.jwt.token.JwtPreAuthenticationToken
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.domain.exception.ForbiddenException
+import com.teama4.a4document.domain.exception.ModelNotFoundException
 import com.teama4.a4document.infra.security.UserPrincipal
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
+
+const val JWT_EXCEPTION = ""
 
 @Component
 class JwtAuthenticationProvider(
@@ -28,7 +31,7 @@ class JwtAuthenticationProvider(
 	fun loadUser(userId: String, role: String) =
 		memberRepository.findByEmail(userId)
 			?.let { UserPrincipal(userId, setOf(role)) }
-			?: throw JwtAuthenticationException(ForbiddenException("test"))
+			?: throw JwtAuthenticationException(ModelNotFoundException("", 1))
 
 	fun getAuthentication(userId: String, role: String) =
 		generateAuthenticationToken(loadUser(userId, role))
@@ -37,7 +40,8 @@ class JwtAuthenticationProvider(
 	override fun authenticate(authentication: Authentication): Authentication {
 		return (authentication.credentials as String)
 			.let { jwt ->
-				jwtPlugin.validateToken(jwt).getOrElse { throw JwtAuthenticationException(it as Exception) }
+				jwtPlugin.validateToken(jwt)
+					.getOrElse { throw JwtAuthenticationException(it as Exception) }
 					.let { claims ->
 						val id = claims.payload.subject
 						val role = claims.payload.get("role", String::class.java)
