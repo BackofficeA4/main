@@ -1,48 +1,50 @@
 package com.teama4.a4document.api.post.service
 
-import com.teama4.a4document.domain.exception.ModelNotFoundException
-import com.teama4.a4document.domain.post.comment.dto.CommentResponseDto
-import com.teama4.a4document.domain.post.comment.dto.CreatCommentDto
-import com.teama4.a4document.domain.post.comment.dto.UpdateCommentDto
+import com.teama4.a4document.domain.post.comment.dto.CommentResponse
+import com.teama4.a4document.domain.post.comment.dto.CreatCommentRequest
+import com.teama4.a4document.domain.post.comment.dto.UpdateCommentRequest
 import com.teama4.a4document.domain.post.comment.entity.CommentEntity
+import com.teama4.a4document.domain.post.comment.repository.CommentRepository
 import com.teama4.a4document.domain.post.comment.service.CommentService
+import com.teama4.a4document.domain.post.service.PostService
 import com.teama4.a4document.infra.security.UserPrincipal
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 
 @Service
 class CommentApiService(
-	val commentService: CommentService
+	private val commentService: CommentService,
+	private val commentRepository: CommentRepository
 ) {
 	fun createComment(
-		creatCommentDto: CreatCommentDto,
+		creatCommentRequest: CreatCommentRequest,
 		postId: Long,
 		userPrincipal: UserPrincipal
-	): CommentResponseDto {
-		TODO("Not yet implemented")
+	): CommentResponse {
+		return commentRepository.findAllByPostId(postId)
+			?.let { commentService.createComment(creatCommentRequest, it) }
+			?: TODO("멤버 못찾음")
 	}
 
-	fun findByCommentId(commentId: Long): CommentResponseDto {
-		TODO("Not yet implemented")
+	fun findAllByPostId(commentId: Long): List<CommentEntity> {
+		return commentRepository.findAllByPostId(postId)
 	}
 
-	fun findAllCommentList(postId: Long): List<CommentResponseDto> {
-		TODO("Not yet implemented")
+	fun findByPostIdAndCommentId(postId: Long): CommentEntity? {
+		return commentRepository.findByPostIdAndCommentId(postId, commentId)
 	}
 
 	fun updateComment(
-		updateCommentDto: UpdateCommentDto,
+		updateCommentRequest: UpdateCommentRequest,
 		postId: Long,
 		commentId: Long,
 		userPrincipal: UserPrincipal
-	): CommentResponseDto {
-		TODO("Not yet implemented")
+	): CommentResponse {
+		return commentService.updateComment(updateCommentRequest,commentId,postId)
 	}
 
 	fun deleteComment(postId: Long, commentId: Long, userPrincipal: UserPrincipal) {
-		TODO("Not yet implemented")
+		return commentService.deleteComment(postId,commentId)
 	}
 
 }
