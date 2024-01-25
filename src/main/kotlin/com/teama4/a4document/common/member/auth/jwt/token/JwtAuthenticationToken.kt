@@ -1,4 +1,4 @@
-package com.teama4.a4document.common.member.auth.jwt
+package com.teama4.a4document.common.member.auth.jwt.token
 
 
 import com.teama4.a4document.infra.security.UserPrincipal
