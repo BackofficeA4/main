@@ -15,7 +15,7 @@ import java.util.*
 class JwtPlugin() {
 
 	companion object {
-		const val ISSUER = "team.sparta.com"
+		const val ISSUER = "team.a4.com"
 		const val SECRET = "PO4c8z41Hia5gJG3oeuFJMRYBB4Ws4aZ"
 		const val ACCESS_TOKEN_EXPIRATION_HOUR: Long = 1
 		const val REFRESH_TOKEN_EXPIRATION_HOUR: Long = 168
@@ -46,7 +46,7 @@ class JwtPlugin() {
 		val now = Instant.now()
 
 		return Jwts.builder()
-			.subject(subject.toString())
+			.subject(subject)
 			.issuer(ISSUER)
 			.issuedAt(Date.from(now))
 			.expiration(Date.from(now.plus(expirationPeriod)))
