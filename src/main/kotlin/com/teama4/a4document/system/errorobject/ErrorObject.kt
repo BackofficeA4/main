@@ -1,4 +1,6 @@
 package com.teama4.a4document.system.errorobject
 
-class ErrorObject {
-}
+data class ErrorObject(
+	val code: Long,
+	val message: String,
+)
