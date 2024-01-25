@@ -1,4 +1,4 @@
-package com.teama4.a4document.common.member.auth.jwt
+package com.teama4.a4document.common.member.auth.jwt.token
 
 import org.springframework.security.authentication.AbstractAuthenticationToken
 

@@ -1,17 +1,14 @@
 package com.teama4.a4document.common.member.auth.jwt
 
+import com.teama4.a4document.common.member.auth.jwt.exception.JwtAuthenticationException
+import com.teama4.a4document.common.member.auth.jwt.token.JwtAuthenticationToken
+import com.teama4.a4document.common.member.auth.jwt.token.JwtPreAuthenticationToken
 import com.teama4.a4document.common.member.repository.MemberRepository
+import com.teama4.a4document.domain.exception.ForbiddenException
 import com.teama4.a4document.infra.security.UserPrincipal
-import io.jsonwebtoken.ExpiredJwtException
-import io.jsonwebtoken.IncorrectClaimException
-import io.jsonwebtoken.MalformedJwtException
-import io.jsonwebtoken.MissingClaimException
-import io.jsonwebtoken.security.SignatureException
-
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
-	import org.springframework.stereotype.Component
+import org.springframework.stereotype.Component
 
 @Component
 class JwtAuthenticationProvider(
@@ -31,35 +28,24 @@ class JwtAuthenticationProvider(
 	fun loadUser(userId: String, role: String) =
 		memberRepository.findByEmail(userId)
 			?.let { UserPrincipal(userId, setOf(role)) }
-			?: throw TODO("멤버 찾지 못함")
+			?: throw JwtAuthenticationException(ForbiddenException("test"))
 
 	fun getAuthentication(userId: String, role: String) =
 		generateAuthenticationToken(loadUser(userId, role))
 
 
-	override fun authenticate(authentication: Authentication?): Authentication {
-		return (authentication?.credentials as String)
+	override fun authenticate(authentication: Authentication): Authentication {
+		return (authentication.credentials as String)
 			.let { jwt ->
-				jwtPlugin.validateToken(jwt)
-					.onFailure {
-						when(it){
-							// CustomAuthenticationException 으로 감싸서 던져주기
-							is SignatureException -> TODO("서명이 일치하지 않음")
-							is MalformedJwtException -> TODO("제대로 된 JWT Token 아님")
-							is IncorrectClaimException -> TODO("Claim 이 예상하던 값과 다름")
-							is MissingClaimException -> TODO("Claim Token 누락")
-							is ExpiredJwtException -> TODO("JWT Token 만료")
-							else -> {}
-						}
-					}.getOrThrow()
-			}
-			.let {
-				val id = it.payload.subject
-				val role = it.payload.get("role", String::class.java)
-				getAuthentication(id, role)
+				jwtPlugin.validateToken(jwt).getOrElse { throw JwtAuthenticationException(it as Exception) }
+					.let { claims ->
+						val id = claims.payload.subject
+						val role = claims.payload.get("role", String::class.java)
+						getAuthentication(id, role)
+					}
 			}
 	}
 
-	override fun supports(authentication: Class<*>?): Boolean =
-		JwtPreAuthenticationToken::class.java.isAssignableFrom(authentication!!)
+	override fun supports(authentication: Class<*>): Boolean =
+		JwtPreAuthenticationToken::class.java.isAssignableFrom(authentication)
 }
