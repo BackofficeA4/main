@@ -1,4 +1,6 @@
 package com.teama4.a4document.common.member.exception
 
-class PasswordMismatchException: RuntimeException("비밀번호가 일치하지 않습니다.") {
-}
+import com.teama4.a4document.system.errorobject.ErrorCode
+
+
+data class PasswordMismatchException(val errorCode: ErrorCode): RuntimeException()

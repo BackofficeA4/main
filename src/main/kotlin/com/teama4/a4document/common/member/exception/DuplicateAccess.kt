@@ -1,5 +1,6 @@
 package com.teama4.a4document.common.member.exception
 
+import com.teama4.a4document.system.errorobject.ErrorCode
 
-class DuplicateAccess: RuntimeException("이미 존재하는 이메일입니다.") {
-}
+
+data class DuplicateAccess(val errorCode: ErrorCode): RuntimeException()

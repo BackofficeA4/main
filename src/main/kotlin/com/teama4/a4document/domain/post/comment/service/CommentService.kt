@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 class CommentService(
 	val commentRepository: CommentRepository,
 ) {
+
 	@Transactional
 	fun createComment(
 		creatCommentRequest: CreatCommentRequest,
