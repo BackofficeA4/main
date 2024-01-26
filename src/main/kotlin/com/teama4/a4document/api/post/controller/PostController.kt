@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/post")
 @RestController
-class PostController(
+class
+
+
+
+PostController(
 	private val postApiService: PostApiService
 ) {
 	@GetMapping()

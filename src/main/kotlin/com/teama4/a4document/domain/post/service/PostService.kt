@@ -42,10 +42,10 @@ class PostService(
 	@Transactional
 	fun updatePost(postId: Long, request: UpdatePostRequest, userPrincipal: UserPrincipal): PostResponse {
 		val post = postRepository.findByIdOrNull(postId) ?: throw Exception("error.")
-		val (contents, title) = request
+//		val (contents, title) = request
 
-		post.contents = contents
-		post.title = title
+		post.contents = request.contents
+		post.title = request.title
 
 		return postRepository.save(post).toResponse()
 	}
