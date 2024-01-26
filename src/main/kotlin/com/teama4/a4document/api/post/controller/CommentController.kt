@@ -37,23 +37,11 @@ class CommentController(
 			.body(result)
 	}
 
-	@Operation(summary = "댓글 단건 조회", description = "댓글을 조회합니다.")
-	@GetMapping("/{commentId}")
-	fun findByPostIdAndCommentId(
-		@PathVariable postId: Long,
-		@PathVariable commentId: Long
-	): ResponseEntity<CommentEntity> {
-		val result = commentApiService.findByPostIdAndCommentId(postId,commentId)
-		return ResponseEntity
-			.status(HttpStatus.OK)
-			.body(result)
-	}
-
 	@Operation(summary = "댓글 목록 조회", description = "댓글 목록을 가져옵니다.")
 	@GetMapping
 	fun findAllByPostId(
 		@PathVariable postId: Long
-	): ResponseEntity<List<CommentEntity>> {
+	): ResponseEntity<List<CommentResponse>> {
 		val result = commentApiService.findAllByPostId(postId)
 		return ResponseEntity
 			.status(HttpStatus.OK)
@@ -63,12 +51,12 @@ class CommentController(
 	@Operation(summary = "댓글 수정", description = "postId, commentId를 기준으로 댓글을 수정합니다.")
 	@PutMapping("/{commentId}")
 	fun updateComment(
-        @PathVariable postId: Long,
         @PathVariable commentId: Long,
         @Valid @RequestBody updateCommentRequest: UpdateCommentRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
 	): ResponseEntity<CommentResponse> {
-		val comment = commentApiService.updateComment(updateCommentRequest, postId, commentId, userPrincipal)
+		val comment = commentApiService.updateComment(
+			updateCommentRequest, commentId, userPrincipal)
 		return ResponseEntity
 			.status(HttpStatus.OK)
 			.body(comment)
@@ -77,11 +65,10 @@ class CommentController(
 	@Operation(summary = "댓글 삭제", description = "postId, commentId를 기준으로 댓글을 삭제합니다.")
 	@DeleteMapping("/{commentId}")
 	fun deletePost(
-		@PathVariable postId: Long,
 		@PathVariable commentId: Long,
 		@AuthenticationPrincipal userPrincipal: UserPrincipal
 	): ResponseEntity<Unit> {
-		commentApiService.deleteComment(postId, commentId, userPrincipal)
+		commentApiService.deleteComment(commentId,userPrincipal)
 		return ResponseEntity
 			.status(HttpStatus.OK)
 			.build()

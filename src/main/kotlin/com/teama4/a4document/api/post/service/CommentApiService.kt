@@ -1,50 +1,60 @@
 package com.teama4.a4document.api.post.service
 
+import com.teama4.a4document.common.member.entity.MemberEntity
+import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.domain.post.comment.dto.CommentResponse
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentRequest
 import com.teama4.a4document.domain.post.comment.dto.UpdateCommentRequest
-import com.teama4.a4document.domain.post.comment.entity.CommentEntity
-import com.teama4.a4document.domain.post.comment.repository.CommentRepository
 import com.teama4.a4document.domain.post.comment.service.CommentService
+import com.teama4.a4document.domain.post.entity.PostEntity
+import com.teama4.a4document.domain.post.repository.PostRepository
 import com.teama4.a4document.domain.post.service.PostService
 import com.teama4.a4document.infra.security.UserPrincipal
+import jakarta.transaction.Transactional
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 
 @Service
 class CommentApiService(
 	private val commentService: CommentService,
-	private val commentRepository: CommentRepository
+	private val postRepository: PostRepository,
+	private val memberRepository:MemberRepository
 ) {
+	@Transactional
 	fun createComment(
 		creatCommentRequest: CreatCommentRequest,
 		postId: Long,
 		userPrincipal: UserPrincipal
 	): CommentResponse {
-		return commentRepository.findAllByPostId(postId)
-			?.let { commentService.createComment(creatCommentRequest, it) }
-			?: TODO("멤버 못찾음")
+		val post = postRepository.findByIdOrNull(postId) ?: throw TODO("post못찾음")
+		val member = memberRepository.findByEmail(userPrincipal.memberEmail) ?: throw TODO()
+		//멤버 값을 가져오려면 맴버 레파지토리에서 유저 프린시플 값을 찾아야한다.
+		//유저 프린시플에있는 멤버 이메일 값을 가져와야한다?
+		// 유저 프린시플은 인증된 유저의 값
+		return commentService.createComment(creatCommentRequest, post, member)
+
 	}
 
-	fun findAllByPostId(commentId: Long): List<CommentEntity> {
-		return commentRepository.findAllByPostId(postId)
+	fun findAllByPostId(postId: Long): List<CommentResponse> {
+		return commentService.findAllByPostId(postId)
 	}
 
-	fun findByPostIdAndCommentId(postId: Long): CommentEntity? {
-		return commentRepository.findByPostIdAndCommentId(postId, commentId)
-	}
 
+	@Transactional
 	fun updateComment(
 		updateCommentRequest: UpdateCommentRequest,
-		postId: Long,
 		commentId: Long,
-		userPrincipal: UserPrincipal
+		userPrincipal: UserPrincipal,
+
 	): CommentResponse {
-		return commentService.updateComment(updateCommentRequest,commentId,postId)
+		return commentService.updateComment(
+			updateCommentRequest,commentId,userPrincipal)
 	}
 
-	fun deleteComment(postId: Long, commentId: Long, userPrincipal: UserPrincipal) {
-		return commentService.deleteComment(postId,commentId)
+	@Transactional
+	fun deleteComment(commentId: Long ,userPrincipal:UserPrincipal ) {
+		return commentService.deleteComment(commentId,userPrincipal)
 	}
-
+// 삭제에 포스트가 필요한가???
 }
