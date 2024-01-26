@@ -54,6 +54,7 @@ class CommentService(
 //	): CommentResponseDto {
 //		val foundComment = commentRepository.findByPostIdAndCommentId(postId, commentId)
 //			?: throw ModelNotFoundException("comment", commentId)
+//		checkAuthor(userPrincipal.memberEmail, foundComment.member)
 //
 //		foundComment.changeUpdateComment(updateCommentArguments)
 //		commentRepository.save(foundComment)
@@ -64,6 +65,8 @@ class CommentService(
 //	fun deleteComment(postId: Long, commentId: Long) {
 //		val foundComment = commentRepository.findByPostIdAndCommentId(postId, commentId)
 //			?: throw ModelNotFoundException("comment", commentId)
+//		checkAuthor(userPrincipal.memberEmail, foundComment.member)
+
 //
 //		commentRepository.delete(foundComment)
 //	}

@@ -7,9 +7,15 @@ import com.teama4.a4document.common.member.dto.SignupResponse
 import com.teama4.a4document.common.member.entity.MemberEntity
 import com.teama4.a4document.common.member.entity.toSignupResponse
 import com.teama4.a4document.common.member.exception.DuplicateAccess
+import com.teama4.a4document.common.member.exception.EmailNotFoundException
 import com.teama4.a4document.common.member.exception.PasswordMismatchException
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.common.member.type.UserRole
+import com.teama4.a4document.domain.exception.ModelNotFoundException
+import com.teama4.a4document.domain.post.entity.PostEntity
+import com.teama4.a4document.domain.post.repository.PostRepository
+import com.teama4.a4document.infra.security.UserPrincipal
+import com.teama4.a4document.system.errorobject.ErrorCode
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +29,7 @@ class MemberService(
 
     @Transactional
     fun signUp(signRequest: SignRequest): SignupResponse {
-        if (memberRepository.existsByEmail(signRequest.email)) throw DuplicateAccess()
+        if (memberRepository.existsByEmail(signRequest.email)) throw DuplicateAccess(ErrorCode.MEMBER_EMAIL_DUPLICATE)
         val member = MemberEntity(
             email = signRequest.email,
             password = passwordEncoder.encode(signRequest.password),
@@ -36,8 +42,8 @@ class MemberService(
 
     @Transactional
     fun signIn(signRequest: SignRequest): SignInResponse {
-        val member = memberRepository.findByEmail(signRequest.email) ?: TODO("가입된 이메일 없을 때 예외처리")
-        if(!passwordEncoder.matches(signRequest.password, member.password)) throw PasswordMismatchException()
+        val member = memberRepository.findByEmail(signRequest.email) ?: throw EmailNotFoundException(ErrorCode.MEMBER_EMAIL_NOT_FOUND)
+        if(!passwordEncoder.matches(signRequest.password, member.password)) throw PasswordMismatchException(ErrorCode.MEMBER_PASSWORD_MISMATCH)
         val accessToken = jwtPlugin.generateAccessToken(signRequest.email, role = member.role.name)
         val refreshToken = jwtPlugin.generateRefreshToken(signRequest.email, role = member.role.name)
 
@@ -48,5 +54,7 @@ class MemberService(
         )
 
     }
+
+
 
 }

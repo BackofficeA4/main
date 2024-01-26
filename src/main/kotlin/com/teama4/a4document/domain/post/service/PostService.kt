@@ -1,7 +1,7 @@
 package com.teama4.a4document.domain.post.service
 
+import com.teama4.a4document.common.member.auth.checkAuthor
 import com.teama4.a4document.common.member.entity.MemberEntity
-import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.domain.dto.CreatePostRequest
 import com.teama4.a4document.domain.dto.PostResponse
 import com.teama4.a4document.domain.dto.UpdatePostRequest
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostService(
-	private val postRepository: PostRepository,
+	private val postRepository: PostRepository
 ) {
 
 	fun getAllPostList(): List<PostResponse> {
@@ -43,6 +43,7 @@ class PostService(
 	fun updatePost(postId: Long, request: UpdatePostRequest, userPrincipal: UserPrincipal): PostResponse {
 		val post = postRepository.findByIdOrNull(postId) ?: throw Exception("error.")
 		val (contents, title) = request
+		checkAuthor(userPrincipal.memberEmail, post.member)
 
 		post.contents = contents
 		post.title = title
@@ -53,6 +54,7 @@ class PostService(
 	@Transactional
 	fun deletePost(postId: Long, userPrincipal: UserPrincipal) {
 		val post = postRepository.findByIdOrNull(postId) ?: throw Exception("error.")
+		checkAuthor(userPrincipal.memberEmail, post.member)
 		postRepository.delete(post)
 	}
 }
