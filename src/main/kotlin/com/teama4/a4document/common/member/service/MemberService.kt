@@ -72,12 +72,12 @@ class MemberService(
 			.run { updatePasswordList(passwordListUpdate(this.passwordList, updateDto.password)) }
 	}
 
-	private fun passwordListUpdate(passwordList: Array<String>, encodedPassword: String) =
-		passwordList.find { passwordEncoder.matches(encodedPassword, it) }
+	private fun passwordListUpdate(passwordList: Array<String>, password: String) =
+		passwordList.find { passwordEncoder.matches(password, it) }
 			?.let { throw TODO("최근에 사용한 이력이 있는 Password") }
 			?: let {
 				val newPasswordList: MutableList<String> = passwordList.toMutableList()
-				newPasswordList.add(encodedPassword)
+				newPasswordList.add(passwordEncoder.encode(password))
 				if (newPasswordList.size < 3) newPasswordList.removeAt(0)
 				newPasswordList.toTypedArray()
 			}
