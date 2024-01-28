@@ -1,11 +1,13 @@
 package com.teama4.a4document.api.post.service
 
+import com.teama4.a4document.common.member.exception.ModelNotFoundException
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.domain.post.dto.CreatePostRequest
 import com.teama4.a4document.domain.post.dto.PostResponse
 import com.teama4.a4document.domain.post.dto.UpdatePostRequest
 import com.teama4.a4document.domain.post.service.PostService
 import com.teama4.a4document.infra.security.UserPrincipal
+import com.teama4.a4document.system.errorobject.ErrorCode
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,7 +26,7 @@ class PostApiService(
 	fun createPost(createPostRequest: CreatePostRequest, userPrincipal: UserPrincipal): PostResponse {
 		return memberRepository.findByEmail(userPrincipal.memberEmail)
 			?.let { postService.createPost(createPostRequest, it) }
-			?: TODO("멤버 못찾음")
+			?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 	}
 
 	fun updatePost(postId: Long, updateRequest: UpdatePostRequest, userPrincipal: UserPrincipal): PostResponse {
