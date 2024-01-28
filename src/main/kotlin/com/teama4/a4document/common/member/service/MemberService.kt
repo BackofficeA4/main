@@ -9,6 +9,7 @@ import com.teama4.a4document.common.member.entity.MemberEntity
 import com.teama4.a4document.common.member.entity.toSignupResponse
 import com.teama4.a4document.common.member.exception.DuplicateAccess
 import com.teama4.a4document.common.member.exception.EmailNotFoundException
+import com.teama4.a4document.common.member.exception.ModelNotFoundException
 import com.teama4.a4document.common.member.exception.PasswordMismatchException
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.common.member.type.UserRole
@@ -44,7 +45,7 @@ class MemberService(
 	@Transactional
 	fun signIn(signRequest: SignRequest): SignInResponse {
 		val member = memberRepository.findByEmail(signRequest.email)
-			?: throw EmailNotFoundException(ErrorCode.MEMBER_EMAIL_NOT_FOUND)
+			?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 		if (!passwordEncoder.matches(
 				signRequest.password,
 				member.password

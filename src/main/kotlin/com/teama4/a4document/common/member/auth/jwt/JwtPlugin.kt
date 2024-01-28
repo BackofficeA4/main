@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
 import java.time.Duration
@@ -12,18 +13,20 @@ import java.util.*
 
 
 @Component
-class JwtPlugin() {
+class JwtPlugin(
+	@Value("\${jwt.secret_key")
+	private val secretKey: String
+) {
 
 	companion object {
 		const val ISSUER = "team.a4.com"
-		const val SECRET = "PO4c8z41Hia5gJG3oeuFJMRYBB4Ws4aZ"
 		const val ACCESS_TOKEN_EXPIRATION_HOUR: Long = 1
 		const val REFRESH_TOKEN_EXPIRATION_HOUR: Long = 168
 	}
 
 	fun validateToken(jwt: String): Result<Jws<Claims>> {
 		return kotlin.runCatching {
-			val key = Keys.hmacShaKeyFor(SECRET.toByteArray(StandardCharsets.UTF_8))
+			val key = Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8))
 			Jwts.parser().verifyWith(key).build().parseSignedClaims(jwt)
 		}
 	}
@@ -42,7 +45,7 @@ class JwtPlugin() {
 			.add(mapOf("role" to role))
 			.build()
 
-		val key = Keys.hmacShaKeyFor(SECRET.toByteArray(StandardCharsets.UTF_8))
+		val key = Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8))
 		val now = Instant.now()
 
 		return Jwts.builder()
