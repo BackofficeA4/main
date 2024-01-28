@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatusCode
 
 enum class ErrorCode(val code: Long, val message: String, val statusCode: HttpStatusCode) {
 
-	MODEL_NOT_FOUND(10001, "", HttpStatus.NOT_FOUND),
+	// Global Error
+	MODEL_NOT_FOUND(10001, "정보가 존재하지 않습니다", HttpStatus.NOT_FOUND),
+	VALIDATION(10002, "Validation을 통과하지 못했습니다.", HttpStatus.BAD_REQUEST),
 
-//	MEMBER_ID_NOT_FOUND(3001, "id에 해당하는 MEMBER 를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-	MEMBER_EMAIL_NOT_FOUND(3002, "이메일이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+
+	// Member Error
+//	MEMBER_EMAIL_NOT_FOUND(3002, "이메일이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
 	MEMBER_EMAIL_DUPLICATE(3003, "이미 사용중인 이메일입니다.", HttpStatus.CONFLICT),
 	MEMBER_PASSWORD_MISMATCH(3004, "비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
 //	MEMBER_VALIDATION(3005, "이메일 또는 비밀번호 형식이 맞지 않습니다.", HttpStatus.BAD_REQUEST)
