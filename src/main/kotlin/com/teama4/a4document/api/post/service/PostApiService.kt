@@ -1,10 +1,9 @@
 package com.teama4.a4document.api.post.service
 
 import com.teama4.a4document.common.member.repository.MemberRepository
-import com.teama4.a4document.domain.dto.CreatePostRequest
-import com.teama4.a4document.domain.dto.PostResponse
-import com.teama4.a4document.domain.dto.UpdatePostRequest
-import com.teama4.a4document.domain.post.comment.service.CommentService
+import com.teama4.a4document.domain.post.dto.CreatePostRequest
+import com.teama4.a4document.domain.post.dto.PostResponse
+import com.teama4.a4document.domain.post.dto.UpdatePostRequest
 import com.teama4.a4document.domain.post.service.PostService
 import com.teama4.a4document.infra.security.UserPrincipal
 import org.springframework.stereotype.Service
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service
 class PostApiService(
 	private val postService: PostService,
 	private val memberRepository: MemberRepository,
-	private val commentService: CommentService
 ) {
 	fun getAllPostList(): List<PostResponse> {
 		return postService.getAllPostList()

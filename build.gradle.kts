@@ -26,7 +26,11 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa"){
+		exclude("org.hibernate.orm:hibernate-core:6.4.1.Final")
+	}
+	implementation("org.hibernate.orm:hibernate-core:6.3.1.Final")
+
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -34,18 +38,21 @@ dependencies {
 	implementation("org.apache.commons:commons-lang3:3.14.0")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
-	runtimeOnly("com.h2database:h2:2.2.220")
-//	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly("org.postgresql:postgresql")
 
+	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.7.0")
+
+	implementation("me.paulschwarz:spring-dotenv:4.0.0")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
+
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
-
-	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
-
-	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
-	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
 }
 
 tasks.withType<KotlinCompile> {

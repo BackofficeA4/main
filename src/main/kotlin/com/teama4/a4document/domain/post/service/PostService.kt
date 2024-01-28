@@ -1,10 +1,10 @@
 package com.teama4.a4document.domain.post.service
 
-import com.teama4.a4document.common.member.auth.checkAuthor
+import com.teama4.a4document.common.member.auth.util.checkAuthor
 import com.teama4.a4document.common.member.entity.MemberEntity
-import com.teama4.a4document.domain.dto.CreatePostRequest
-import com.teama4.a4document.domain.dto.PostResponse
-import com.teama4.a4document.domain.dto.UpdatePostRequest
+import com.teama4.a4document.domain.post.dto.CreatePostRequest
+import com.teama4.a4document.domain.post.dto.PostResponse
+import com.teama4.a4document.domain.post.dto.UpdatePostRequest
 import com.teama4.a4document.domain.post.entity.PostEntity
 import com.teama4.a4document.domain.post.repository.PostRepository
 import com.teama4.a4document.infra.security.UserPrincipal
@@ -43,11 +43,7 @@ class PostService(
 	fun updatePost(postId: Long, request: UpdatePostRequest, userPrincipal: UserPrincipal): PostResponse {
 		val post = postRepository.findByIdOrNull(postId) ?: throw Exception("error.")
 
-		val (contents, title) = request
-		checkAuthor(userPrincipal.memberEmail, post.member)
-
-//		val (contents, title) = request
-
+		checkAuthor(userPrincipal, post.member)
 
 		post.contents = request.contents
 		post.title = request.title
@@ -58,7 +54,7 @@ class PostService(
 	@Transactional
 	fun deletePost(postId: Long, userPrincipal: UserPrincipal) {
 		val post = postRepository.findByIdOrNull(postId) ?: throw Exception("error.")
-		checkAuthor(userPrincipal.memberEmail, post.member)
+		checkAuthor(userPrincipal, post.member)
 		postRepository.delete(post)
 	}
 }

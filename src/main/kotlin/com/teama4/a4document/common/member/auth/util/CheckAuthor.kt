@@ -1,7 +1,7 @@
-package com.teama4.a4document.common.member.auth
+package com.teama4.a4document.common.member.auth.util
 
+import com.teama4.a4document.common.member.auth.exception.AuthorMismatchException
 import com.teama4.a4document.common.member.entity.MemberEntity
-import com.teama4.a4document.common.member.exception.AuthorMismatchException
 import com.teama4.a4document.infra.security.UserPrincipal
 import com.teama4.a4document.system.errorobject.ErrorCode
 import org.springframework.security.core.GrantedAuthority

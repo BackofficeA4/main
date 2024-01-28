@@ -1,6 +1,5 @@
 package com.teama4.a4document.common.member.auth.jwt
 
-import com.teama4.a4document.domain.exception.ForbiddenException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Qualifier
@@ -22,7 +21,7 @@ class JwtAuthenticationEntryPoint(
 		response: HttpServletResponse,
 		authException: AuthenticationException
 	) {
-		resolver.resolveException(request, response, null, ForbiddenException("test"))
+		resolver.resolveException(request, response, null, RuntimeException("temp"))
 	}
 }
 
