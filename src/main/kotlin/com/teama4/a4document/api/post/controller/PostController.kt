@@ -1,9 +1,9 @@
 package com.teama4.a4document.api.post.controller
 
 import com.teama4.a4document.api.post.service.PostApiService
-import com.teama4.a4document.domain.dto.CreatePostRequest
-import com.teama4.a4document.domain.dto.PostResponse
-import com.teama4.a4document.domain.dto.UpdatePostRequest
+import com.teama4.a4document.domain.post.dto.CreatePostRequest
+import com.teama4.a4document.domain.post.dto.PostResponse
+import com.teama4.a4document.domain.post.dto.UpdatePostRequest
 import com.teama4.a4document.infra.security.UserPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/post")
 @RestController
 class
-
 
 
 PostController(
@@ -63,6 +62,5 @@ PostController(
 		return ResponseEntity
 			.status(HttpStatus.NO_CONTENT)
 			.build()
-
 	}
 }

@@ -4,14 +4,11 @@ import com.teama4.a4document.common.member.auth.jwt.exception.JwtAuthenticationE
 import com.teama4.a4document.common.member.auth.jwt.token.JwtAuthenticationToken
 import com.teama4.a4document.common.member.auth.jwt.token.JwtPreAuthenticationToken
 import com.teama4.a4document.common.member.repository.MemberRepository
-import com.teama4.a4document.domain.exception.ForbiddenException
-import com.teama4.a4document.domain.exception.ModelNotFoundException
 import com.teama4.a4document.infra.security.UserPrincipal
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 
-const val JWT_EXCEPTION = ""
 
 @Component
 class JwtAuthenticationProvider(
@@ -19,22 +16,21 @@ class JwtAuthenticationProvider(
 	private val jwtPlugin: JwtPlugin
 ) : AuthenticationProvider {
 
-	fun generateAuthenticationToken(principal: UserPrincipal) =
+	private fun generateAuthenticationToken(principal: UserPrincipal) =
 		JwtAuthenticationToken(principal = principal)
 
-	/**
-	 * TODO: Member 인증 과정
-	 *  1. Token에서 가져온 Member가 있는지 확인 (Status를 사용하게 된다면 Status를 확인하여 탈퇴, 정지 여부 확인)
-	 *  2. member에서 Refresh Token을 가져와 시간이 만료되었는지 확인
-	 *  3. Refresh Token이 만료 되었을 경우 재로그인 필요 Exception
-	 */
-	fun loadUser(userId: String, role: String) =
+	private fun loadUser(userId: String, role: String, token: String) =
 		memberRepository.findByEmail(userId)
-			?.let { UserPrincipal(userId, setOf(role)) }
-			?: throw JwtAuthenticationException(ModelNotFoundException("", 1))
+			?.also { member ->
+				member.refresh?.let { refresh ->
+					jwtPlugin.validateToken(refresh).getOrElse { throw JwtAuthenticationException(it as Exception) }
+				} ?: throw TODO("로그아웃 처리된 사용자 - 모든 기기 로그아웃 처리")
+			}
+			?.let { UserPrincipal(userId, setOf(role), token) }
+			?: throw TODO("멤버 관련 정보 찾지 못함")
 
-	fun getAuthentication(userId: String, role: String) =
-		generateAuthenticationToken(loadUser(userId, role))
+	private fun getAuthentication(userId: String, role: String, token: String) =
+		generateAuthenticationToken(loadUser(userId, role, token))
 
 
 	override fun authenticate(authentication: Authentication): Authentication {
@@ -45,7 +41,7 @@ class JwtAuthenticationProvider(
 					.let { claims ->
 						val id = claims.payload.subject
 						val role = claims.payload.get("role", String::class.java)
-						getAuthentication(id, role)
+						getAuthentication(id, role, jwt)
 					}
 			}
 	}

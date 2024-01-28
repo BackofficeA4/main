@@ -1,8 +1,7 @@
 package com.teama4.a4document.domain.post.entity
 
 import com.teama4.a4document.common.member.entity.MemberEntity
-import com.teama4.a4document.domain.dto.PostResponse
-import com.teama4.a4document.domain.post.comment.entity.CommentEntity
+import com.teama4.a4document.domain.post.dto.PostResponse
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
@@ -10,8 +9,6 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "post")
 class PostEntity(
-
-
 	@Column(name = "contents")
 	var contents: String,
 
@@ -22,10 +19,10 @@ class PostEntity(
 	var createdAt: LocalDateTime = LocalDateTime.now(),
 
 	@Column
-	val anonymousNickname : String,
+	val anonymousNickname: String,
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	var member : MemberEntity,
+	var member: MemberEntity,
 
 	) {
 	@Id
@@ -37,10 +34,9 @@ class PostEntity(
 	fun toResponse(): PostResponse {
 		return PostResponse(
 			contents = contents,
-			title =  title,
-			created_at = createdAt,
-			anonymous_nickname = anonymousNickname
-			// postresponse에는 익명이 없다
+			title = title,
+			createdAt = createdAt,
+			anonymousNickname = anonymousNickname
 		)
 	}
 }

@@ -4,14 +4,12 @@ import com.teama4.a4document.api.post.service.CommentApiService
 import com.teama4.a4document.domain.post.comment.dto.CommentResponse
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentRequest
 import com.teama4.a4document.domain.post.comment.dto.UpdateCommentRequest
-import com.teama4.a4document.domain.post.comment.entity.CommentEntity
 import com.teama4.a4document.infra.security.UserPrincipal
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
@@ -21,15 +19,12 @@ import org.springframework.web.bind.annotation.*
 class CommentController(
 	val commentApiService: CommentApiService
 ) {
-
-
 	@Operation(summary = "댓글 작성", description = "postId를 기준으로 댓글을 작성합니다.")
-//	@PreAuthorize("hasRole('MEMBER')")
 	@PostMapping
 	fun createComment(
-        @PathVariable postId: Long,
-        @Valid @RequestBody creatCommentRequest: CreatCommentRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+		@PathVariable postId: Long,
+		@Valid @RequestBody creatCommentRequest: CreatCommentRequest,
+		@AuthenticationPrincipal userPrincipal: UserPrincipal
 	): ResponseEntity<CommentResponse> {
 		val result = commentApiService.createComment(creatCommentRequest, postId, userPrincipal)
 		return ResponseEntity
@@ -51,12 +46,13 @@ class CommentController(
 	@Operation(summary = "댓글 수정", description = "postId, commentId를 기준으로 댓글을 수정합니다.")
 	@PutMapping("/{commentId}")
 	fun updateComment(
-        @PathVariable commentId: Long,
-        @Valid @RequestBody updateCommentRequest: UpdateCommentRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+		@PathVariable commentId: Long,
+		@Valid @RequestBody updateCommentRequest: UpdateCommentRequest,
+		@AuthenticationPrincipal userPrincipal: UserPrincipal
 	): ResponseEntity<CommentResponse> {
 		val comment = commentApiService.updateComment(
-			updateCommentRequest, commentId, userPrincipal)
+			updateCommentRequest, commentId, userPrincipal
+		)
 		return ResponseEntity
 			.status(HttpStatus.OK)
 			.body(comment)
@@ -68,15 +64,9 @@ class CommentController(
 		@PathVariable commentId: Long,
 		@AuthenticationPrincipal userPrincipal: UserPrincipal
 	): ResponseEntity<Unit> {
-		commentApiService.deleteComment(commentId,userPrincipal)
+		commentApiService.deleteComment(commentId, userPrincipal)
 		return ResponseEntity
 			.status(HttpStatus.OK)
 			.build()
 	}
-
-
-
-
-
-
 }

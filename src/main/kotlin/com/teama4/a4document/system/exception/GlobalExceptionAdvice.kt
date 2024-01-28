@@ -1,6 +1,6 @@
-package com.teama4.a4document.global.exception
+package com.teama4.a4document.system.exception
 
-import com.teama4.a4document.common.member.exception.AuthorMismatchException
+import com.teama4.a4document.common.member.auth.exception.AuthorMismatchException
 import com.teama4.a4document.common.member.exception.DuplicateAccess
 import com.teama4.a4document.common.member.exception.EmailNotFoundException
 import com.teama4.a4document.common.member.exception.PasswordMismatchException
@@ -14,20 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class GlobalExceptionAdvice {
-
-	@ExceptionHandler(SignatureException::class)
-	fun test2(signatureException: SignatureException): ResponseEntity<String> {
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body("SignatureException")
-	}
-
-	@ExceptionHandler(MalformedJwtException::class)
-	fun test3(malformedJwtException: MalformedJwtException): ResponseEntity<String> {
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body("MalformedJwtException")
-	}
-
-
-
-
 	@ExceptionHandler(DuplicateAccess::class)
 	fun handleDuplicateAccess(e: DuplicateAccess): ResponseEntity<ErrorObject> {
 		val errorCode = e.errorCode

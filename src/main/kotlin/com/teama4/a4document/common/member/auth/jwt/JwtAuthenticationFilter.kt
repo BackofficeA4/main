@@ -21,7 +21,8 @@ class JwtAuthenticationFilter(
 ) : AbstractAuthenticationProcessingFilter(
 	OrRequestMatcher(
 		AntPathRequestMatcher("/post/**"),
-		AntPathRequestMatcher("/comment/**")
+		AntPathRequestMatcher("/comment/**"),
+		AntPathRequestMatcher("/member/**")
 	), authenticationManager
 ) {
 
@@ -38,7 +39,7 @@ class JwtAuthenticationFilter(
 		authResult: Authentication
 	) {
 		SecurityContextHolder.getContext().authentication = authResult
-		chain.doFilter(request,response)
+		chain.doFilter(request, response)
 	}
 
 	override fun unsuccessfulAuthentication(
