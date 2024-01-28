@@ -27,7 +27,7 @@ class CommentApiService(
 		userPrincipal: UserPrincipal
 	): CommentResponse {
 		val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
-		val member = memberRepository.findByEmail(userPrincipal.memberEmail) ?: throw TODO()
+		val member = memberRepository.findByEmail(userPrincipal.memberEmail) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 		return commentService.createComment(creatCommentRequest, post, member)
 	}
 
