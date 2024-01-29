@@ -7,10 +7,7 @@ import com.teama4.a4document.common.member.dto.SignRequest
 import com.teama4.a4document.common.member.dto.SignupResponse
 import com.teama4.a4document.common.member.entity.MemberEntity
 import com.teama4.a4document.common.member.entity.toSignupResponse
-import com.teama4.a4document.common.member.exception.DuplicateAccess
-import com.teama4.a4document.common.member.exception.EmailNotFoundException
-import com.teama4.a4document.common.member.exception.ModelNotFoundException
-import com.teama4.a4document.common.member.exception.PasswordMismatchException
+import com.teama4.a4document.common.member.exception.*
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.common.member.type.UserRole
 import com.teama4.a4document.infra.security.UserPrincipal
@@ -75,7 +72,7 @@ class MemberService(
 
 	private fun passwordListUpdate(passwordList: Array<String>, password: String) =
 		passwordList.find { passwordEncoder.matches(password, it) }
-			?.let { throw TODO("최근에 사용한 이력이 있는 Password") }
+			?.let { throw RecentPasswordException(ErrorCode.MEMBER_PASSWORD_RECENT) }
 			?: let {
 				val newPasswordList: MutableList<String> = passwordList.toMutableList()
 				newPasswordList.add(passwordEncoder.encode(password))
