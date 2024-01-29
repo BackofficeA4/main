@@ -1,17 +1,8 @@
 # - BackofficeA4 Project -
 
 <div align=center><h1>팀원 소개</h1></div>
-
-
-<table>
-  <tbody>
-      <td align="center"><a href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fkor.animalia-life.club%2F%25EA%25B8%25B0%25EB%25B3%25B8-%25ED%2594%2584%25EB%25A1%259C%25ED%2595%2584-%25EC%2582%25AC%25EC%25A7%2584&psig=AOvVaw2jnZ1u5pYHqN8GczKE9wdF&ust=1706576481978000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNDi5_-ygYQDFQAAAAAdAAAAABAY"><img src="" width="100px;" alt=""/><br /><sub><b> 팀장 : </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b> 팀원 : </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b> 팀원 : </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b> 팀원 : </b></sub></a><br /></td>
-     
-  </tbody>
-</table>
+팀장 : 박준성
+팀원 : 전창현 , 박재은 , 김성민
 
 
 <div align=center><h1>📚 STACKS</h1></div>
