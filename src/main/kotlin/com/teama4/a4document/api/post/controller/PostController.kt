@@ -5,17 +5,17 @@ import com.teama4.a4document.domain.post.dto.CreatePostRequest
 import com.teama4.a4document.domain.post.dto.PostResponse
 import com.teama4.a4document.domain.post.dto.UpdatePostRequest
 import com.teama4.a4document.infra.security.UserPrincipal
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/post")
 @RestController
-class
-
-
-PostController(
+@Validated
+class PostController(
 	private val postApiService: PostApiService
 ) {
 	@GetMapping()
@@ -34,7 +34,7 @@ PostController(
 
 	@PostMapping
 	fun createPost(
-		@RequestBody createPostRequest: CreatePostRequest,
+		@RequestBody @Valid createPostRequest: CreatePostRequest,
 		@AuthenticationPrincipal userPrincipal: UserPrincipal
 	): ResponseEntity<PostResponse> {
 		return ResponseEntity
@@ -45,7 +45,7 @@ PostController(
 	@PutMapping("/{postId}")
 	fun updatePost(
 		@PathVariable postId: Long,
-		@RequestBody updateRequest: UpdatePostRequest,
+		@RequestBody @Valid updateRequest: UpdatePostRequest,
 		@AuthenticationPrincipal userPrincipal: UserPrincipal
 	): ResponseEntity<PostResponse> {
 		return ResponseEntity

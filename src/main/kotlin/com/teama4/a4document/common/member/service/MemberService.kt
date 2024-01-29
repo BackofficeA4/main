@@ -66,7 +66,7 @@ class MemberService(
 		memberRepository.findByEmail(userPrincipal.memberEmail)!!
 			.let { passwordEncoder.matches(password, it.password) }
 
-
+	@Transactional
 	fun changeProfile(userPrincipal: UserPrincipal, updateDto: UpdateMemberRequest) {
 		memberRepository.findByEmail(userPrincipal.memberEmail)!!
 			.run { updatePasswordList(passwordListUpdate(this.passwordList, updateDto.password)) }
@@ -82,6 +82,7 @@ class MemberService(
 				newPasswordList.toTypedArray()
 			}
 
+	@Transactional
 	fun deleteMember(userPrincipal: UserPrincipal, memberEmail: String) {
 		memberRepository.findByEmail(memberEmail)
 			?.let { memberRepository.delete(it) }

@@ -6,24 +6,27 @@ import com.teama4.a4document.common.member.dto.SignRequest
 import com.teama4.a4document.common.member.dto.SignupResponse
 import com.teama4.a4document.infra.security.UserPrincipal
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.validation.annotation.*
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "회원", description = "회원가입 및 로그인")
 @RestController
 @RequestMapping("/auth")
+@Validated
 class AuthController(
 	private val authApiService: AuthApiService
 ) {
 	@PostMapping("/signup")
-	fun signup(@RequestBody signRequest: SignRequest): ResponseEntity<SignupResponse> {
+	fun signup(@RequestBody @Valid signRequest: SignRequest): ResponseEntity<SignupResponse> {
 		return ResponseEntity.status(HttpStatus.CREATED).body(authApiService.signUp(signRequest))
 	}
 
 	@PostMapping("/signin")
-	fun signIn(@RequestBody signRequest: SignRequest): ResponseEntity<SignInResponse> {
+	fun signIn(@RequestBody @Valid signRequest: SignRequest): ResponseEntity<SignInResponse> {
 		return ResponseEntity.status(HttpStatus.CREATED).body(authApiService.signIn(signRequest))
 	}
 
