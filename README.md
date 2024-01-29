@@ -5,7 +5,6 @@
 
 <table>
   <tbody>
-  
       <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b> 팀장 : </b></sub></a><br /></td>
       <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b> 팀원 : </b></sub></a><br /></td>
       <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b> 팀원 : </b></sub></a><br /></td>
