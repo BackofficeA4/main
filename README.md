@@ -20,59 +20,59 @@ DDD의 핵심 목표로 각각의 도메인이 서로 철저하게 분리되고 
 ## 프로젝트 구조
 -------------------------------------------------------------------
 ```bash
-:포장:a4document
- ┣ :열린_파일_폴더:api
- ┃ ┣ :열린_파일_폴더:admin
- ┃ ┃ ┣ :열린_파일_폴더:controller
- ┃ ┃ ┗ :열린_파일_폴더:service
- ┃ ┣ :열린_파일_폴더:auth
- ┃ ┃ ┣ :열린_파일_폴더:controller
- ┃ ┃ ┗ :열린_파일_폴더:service
- ┃ ┣ :열린_파일_폴더:member
- ┃ ┃ ┣ :열린_파일_폴더:controller
- ┃ ┃ ┗ :열린_파일_폴더:service
- ┃ ┗ :열린_파일_폴더:post
- ┃ ┃ ┣ :열린_파일_폴더:controller
- ┃ ┃ ┗ :열린_파일_폴더:service
- ┣ :열린_파일_폴더:common
- ┃ ┣ :열린_파일_폴더:member
- ┃ ┃ ┣ :열린_파일_폴더:auth
- ┃ ┃ ┃ ┣ :열린_파일_폴더:config
- ┃ ┃ ┃ ┣ :열린_파일_폴더:dto
- ┃ ┃ ┃ ┣ :열린_파일_폴더:exception
- ┃ ┃ ┃ ┣ :열린_파일_폴더:jwt
- ┃ ┃ ┃ ┃ ┣ :열린_파일_폴더:exception
- ┃ ┃ ┃ ┃ ┣ :열린_파일_폴더:token
- ┃ ┃ ┃ ┗ :열린_파일_폴더:util
- ┃ ┃ ┣ :열린_파일_폴더:dto
- ┃ ┃ ┣ :열린_파일_폴더:entity
- ┃ ┃ ┣ :열린_파일_폴더:exception
- ┃ ┃ ┣ :열린_파일_폴더:repository
- ┃ ┃ ┣ :열린_파일_폴더:service
- ┃ ┃ ┗ :열린_파일_폴더:type
- ┃ ┗ :열린_파일_폴더:util
- ┣ :열린_파일_폴더:domain
- ┃ ┗ :열린_파일_폴더:post
- ┃ ┃ ┣ :열린_파일_폴더:comment
- ┃ ┃ ┃ ┣ :열린_파일_폴더:dto
- ┃ ┃ ┃ ┣ :열린_파일_폴더:entity
- ┃ ┃ ┃ ┣ :열린_파일_폴더:exception
- ┃ ┃ ┃ ┣ :열린_파일_폴더:repository
- ┃ ┃ ┃ ┗ :열린_파일_폴더:service
- ┃ ┃ ┣ :열린_파일_폴더:dto
- ┃ ┃ ┣ :열린_파일_폴더:entity
- ┃ ┃ ┣ :열린_파일_폴더:repository
- ┃ ┃ ┗ :열린_파일_폴더:service
- ┣ :열린_파일_폴더:global
- ┃ ┣ :열린_파일_폴더:exception
- ┃ ┗ :열린_파일_폴더:util
- ┣ :열린_파일_폴더:infra
- ┃ ┣ :열린_파일_폴더:security
- ┃ ┃ ┣ :열린_파일_폴더:config
- ┃ ┗ :열린_파일_폴더:swagger
- ┣ :열린_파일_폴더:system
- ┃ ┣ :열린_파일_폴더:admin
- ┃ ┗ :열린_파일_폴더:errorobject
+📦:a4document
+ ┣ 📂:api
+ ┃ ┣ :📂:admin
+ ┃ ┃ ┣ :📂:controller
+ ┃ ┃ ┗ :📂:service
+ ┃ ┣ :📂:auth
+ ┃ ┃ ┣ :📂:controller
+ ┃ ┃ ┗ :📂:service
+ ┃ ┣ :📂:member
+ ┃ ┃ ┣ :📂:controller
+ ┃ ┃ ┗ :📂:service
+ ┃ ┗ :📂:post
+ ┃ ┃ ┣ :📂:controller
+ ┃ ┃ ┗ :📂:service
+ ┣ :📂:common
+ ┃ ┣ :📂:member
+ ┃ ┃ ┣ :📂:auth
+ ┃ ┃ ┃ ┣ :📂:config
+ ┃ ┃ ┃ ┣ :📂:dto
+ ┃ ┃ ┃ ┣ :📂:exception
+ ┃ ┃ ┃ ┣ :📂:jwt
+ ┃ ┃ ┃ ┃ ┣ :📂:exception
+ ┃ ┃ ┃ ┃ ┣ :📂:token
+ ┃ ┃ ┃ ┗ :📂:util
+ ┃ ┃ ┣ :📂:dto
+ ┃ ┃ ┣ :📂:entity
+ ┃ ┃ ┣ :📂:exception
+ ┃ ┃ ┣ :📂:repository
+ ┃ ┃ ┣ :📂:service
+ ┃ ┃ ┗ :📂:type
+ ┃ ┗ :📂:util
+ ┣ :📂:domain
+ ┃ ┗ :📂:post
+ ┃ ┃ ┣ :📂:comment
+ ┃ ┃ ┃ ┣ :📂:dto
+ ┃ ┃ ┃ ┣ :📂:entity
+ ┃ ┃ ┃ ┣ :📂:exception
+ ┃ ┃ ┃ ┣ :📂:repository
+ ┃ ┃ ┃ ┗ :📂:service
+ ┃ ┃ ┣ :📂:dto
+ ┃ ┃ ┣ :📂:entity
+ ┃ ┃ ┣ :📂:repository
+ ┃ ┃ ┗ :📂:service
+ ┣ :📂:global
+ ┃ ┣ :📂:exception
+ ┃ ┗ :📂:util
+ ┣ :📂:infra
+ ┃ ┣ :📂:security
+ ┃ ┃ ┣ :📂:config
+ ┃ ┗ :📂:swagger
+ ┣ :📂:system
+ ┃ ┣ :📂:admin
+ ┃ ┗ :📂:errorobject
 ```
 
 
