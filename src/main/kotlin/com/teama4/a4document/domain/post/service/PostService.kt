@@ -2,7 +2,7 @@ package com.teama4.a4document.domain.post.service
 
 import com.teama4.a4document.common.member.auth.util.checkAuthor
 import com.teama4.a4document.common.member.entity.MemberEntity
-import com.teama4.a4document.common.member.exception.ModelNotFoundException
+import com.teama4.a4document.system.exception.ModelNotFoundException
 import com.teama4.a4document.domain.post.dto.CreatePostRequest
 import com.teama4.a4document.domain.post.dto.PostResponse
 import com.teama4.a4document.domain.post.dto.UpdatePostRequest

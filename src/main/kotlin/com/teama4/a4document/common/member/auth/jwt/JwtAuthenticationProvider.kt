@@ -1,10 +1,13 @@
 package com.teama4.a4document.common.member.auth.jwt
 
+import com.teama4.a4document.common.member.auth.exception.LogoutUserException
 import com.teama4.a4document.common.member.auth.jwt.exception.JwtAuthenticationException
 import com.teama4.a4document.common.member.auth.jwt.token.JwtAuthenticationToken
 import com.teama4.a4document.common.member.auth.jwt.token.JwtPreAuthenticationToken
+import com.teama4.a4document.system.exception.ModelNotFoundException
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.infra.security.UserPrincipal
+import com.teama4.a4document.system.errorobject.ErrorCode
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
@@ -24,10 +27,10 @@ class JwtAuthenticationProvider(
 			?.also { member ->
 				member.refresh?.let { refresh ->
 					jwtPlugin.validateToken(refresh).getOrElse { throw JwtAuthenticationException(it as Exception) }
-				} ?: throw TODO("로그아웃 처리된 사용자 - 모든 기기 로그아웃 처리")
+				} ?: throw LogoutUserException(ErrorCode.MEMBER_LOGOUT)
 			}
 			?.let { UserPrincipal(userId, setOf(role), token) }
-			?: throw TODO("멤버 관련 정보 찾지 못함")
+			?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
 	private fun getAuthentication(userId: String, role: String, token: String) =
 		generateAuthenticationToken(loadUser(userId, role, token))

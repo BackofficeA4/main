@@ -1,6 +1,6 @@
 package com.teama4.a4document.api.post.service
 
-import com.teama4.a4document.common.member.exception.ModelNotFoundException
+import com.teama4.a4document.system.exception.ModelNotFoundException
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.domain.post.comment.dto.CommentResponse
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentRequest

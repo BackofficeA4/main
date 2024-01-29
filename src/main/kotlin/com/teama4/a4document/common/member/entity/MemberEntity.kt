@@ -18,12 +18,7 @@ class MemberEntity(
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
-	val role: UserRole = UserRole.USER,
-
-
-//	@Enumerated(EnumType.STRING)
-//	@Column(name = "status", nullable = false)
-//	val status: Status = Status.FALSE,
+	val role: UserRole = UserRole.ROLE_USER,
 
 	@Column(name = "refresh")
 	var refresh: String?,

@@ -7,7 +7,10 @@ import com.teama4.a4document.common.member.dto.SignRequest
 import com.teama4.a4document.common.member.dto.SignupResponse
 import com.teama4.a4document.common.member.entity.MemberEntity
 import com.teama4.a4document.common.member.entity.toSignupResponse
-import com.teama4.a4document.common.member.exception.*
+import com.teama4.a4document.common.member.exception.DuplicateAccess
+import com.teama4.a4document.system.exception.ModelNotFoundException
+import com.teama4.a4document.common.member.exception.PasswordMismatchException
+import com.teama4.a4document.common.member.exception.RecentPasswordException
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.common.member.type.UserRole
 import com.teama4.a4document.infra.security.UserPrincipal
@@ -79,9 +82,14 @@ class MemberService(
 				newPasswordList.toTypedArray()
 			}
 
-	fun deleteMember(userPrincipal: UserPrincipal, memberEmail: String){
+	fun deleteMember(userPrincipal: UserPrincipal, memberEmail: String) {
 		memberRepository.findByEmail(memberEmail)
 			?.let { memberRepository.delete(it) }
-			?: TODO("찾을 수 없는 member")
+			?: ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+	}
+
+	@Transactional
+	fun logout(userPrincipal: UserPrincipal) {
+		memberRepository.findByEmail(userPrincipal.memberEmail)!!.refresh = null
 	}
 }
