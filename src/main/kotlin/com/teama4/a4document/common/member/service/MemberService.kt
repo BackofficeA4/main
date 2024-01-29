@@ -30,11 +30,10 @@ class MemberService(
 	fun signUp(signRequest: SignRequest): SignupResponse {
 		if (memberRepository.existsByEmail(signRequest.email)) throw DuplicateAccess(ErrorCode.MEMBER_EMAIL_DUPLICATE)
 
-
 		val member = MemberEntity(
 			email = signRequest.email,
 			password = passwordEncoder.encode(signRequest.password),
-			role = UserRole.USER,
+			role = UserRole.ROLE_USER,
 			refresh = null,
 			arrayOf(passwordEncoder.encode(signRequest.password))
 		)
@@ -82,4 +81,10 @@ class MemberService(
 				if (newPasswordList.size < 3) newPasswordList.removeAt(0)
 				newPasswordList.toTypedArray()
 			}
+
+	fun deleteMember(userPrincipal: UserPrincipal, memberEmail: String){
+		memberRepository.findByEmail(memberEmail)
+			?.let { memberRepository.delete(it) }
+			?: TODO("찾을 수 없는 member")
+	}
 }

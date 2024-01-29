@@ -38,6 +38,7 @@ class SecurityConfiguration(
 				it.frameOptions { frameOptionConfig -> frameOptionConfig.disable() }
 			}
 			.authorizeHttpRequests {
+				it.requestMatchers("/admin").hasRole("ROLE_ADMIN")
 				it.requestMatchers(
 					"/auth/**",
 					"/swagger-ui/**",

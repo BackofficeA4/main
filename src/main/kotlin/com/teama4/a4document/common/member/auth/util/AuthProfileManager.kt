@@ -18,7 +18,7 @@ object AuthProfileManager {
 	fun setInfo(token: String) {
 		scope.launch {
 			infoList[token] = Data()
-			delay(10 * 1000)
+			delay(60 * 10 * 1000)
 			infoList.remove(token)
 		}
 	}

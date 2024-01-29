@@ -22,7 +22,8 @@ class JwtAuthenticationFilter(
 	OrRequestMatcher(
 		AntPathRequestMatcher("/post/**"),
 		AntPathRequestMatcher("/comment/**"),
-		AntPathRequestMatcher("/member/**")
+		AntPathRequestMatcher("/member/**"),
+		AntPathRequestMatcher("/admin/**")
 	), authenticationManager
 ) {
 
