@@ -78,7 +78,7 @@ class MemberService(
 			?: let {
 				val newPasswordList: MutableList<String> = passwordList.toMutableList()
 				newPasswordList.add(passwordEncoder.encode(password))
-				if (newPasswordList.size < 3) newPasswordList.removeAt(0)
+				if (newPasswordList.size > 3) newPasswordList.removeAt(0)
 				newPasswordList.toTypedArray()
 			}
 
