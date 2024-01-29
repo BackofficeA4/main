@@ -1,5 +1,6 @@
 package com.teama4.a4document.api.post.service
 
+import com.teama4.a4document.common.member.exception.ModelNotFoundException
 import com.teama4.a4document.common.member.repository.MemberRepository
 import com.teama4.a4document.domain.post.comment.dto.CommentResponse
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentRequest
@@ -7,6 +8,7 @@ import com.teama4.a4document.domain.post.comment.dto.UpdateCommentRequest
 import com.teama4.a4document.domain.post.comment.service.CommentService
 import com.teama4.a4document.domain.post.repository.PostRepository
 import com.teama4.a4document.infra.security.UserPrincipal
+import com.teama4.a4document.system.errorobject.ErrorCode
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -24,8 +26,8 @@ class CommentApiService(
 		postId: Long,
 		userPrincipal: UserPrincipal
 	): CommentResponse {
-		val post = postRepository.findByIdOrNull(postId) ?: throw TODO("post못찾음")
-		val member = memberRepository.findByEmail(userPrincipal.memberEmail) ?: throw TODO()
+		val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+		val member = memberRepository.findByEmail(userPrincipal.memberEmail) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 		return commentService.createComment(creatCommentRequest, post, member)
 	}
 

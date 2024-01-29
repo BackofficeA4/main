@@ -3,6 +3,7 @@ package com.teama4.a4document.domain.post.comment.service
 
 import com.teama4.a4document.common.member.auth.util.checkAuthor
 import com.teama4.a4document.common.member.entity.MemberEntity
+import com.teama4.a4document.common.member.exception.ModelNotFoundException
 import com.teama4.a4document.domain.post.comment.dto.CommentResponse
 import com.teama4.a4document.domain.post.comment.dto.CreatCommentRequest
 import com.teama4.a4document.domain.post.comment.dto.UpdateCommentRequest
@@ -10,6 +11,7 @@ import com.teama4.a4document.domain.post.comment.entity.CommentEntity
 import com.teama4.a4document.domain.post.comment.repository.CommentRepository
 import com.teama4.a4document.domain.post.entity.PostEntity
 import com.teama4.a4document.infra.security.UserPrincipal
+import com.teama4.a4document.system.errorobject.ErrorCode
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -46,7 +48,7 @@ class CommentService(
 		userPrincipal: UserPrincipal,
 	): CommentResponse {
 		val foundComment = commentRepository.findByIdOrNull(commentId)
-			?: throw TODO("Entity Not Found")
+			?: throw throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
 		checkAuthor(userPrincipal, foundComment.member)
 
@@ -58,7 +60,7 @@ class CommentService(
 	@Transactional
 	fun deleteComment(commentId: Long, userPrincipal: UserPrincipal) {
 		val foundComment = commentRepository.findByIdOrNull(commentId)
-			?: throw TODO("")
+			?: throw throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
 		checkAuthor(userPrincipal, foundComment.member)
 
