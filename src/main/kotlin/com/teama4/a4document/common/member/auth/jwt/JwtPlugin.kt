@@ -14,7 +14,7 @@ import java.util.*
 
 @Component
 class JwtPlugin(
-	@Value("\${jwt.secret_key")
+	@Value("\${jwt.secret_key}")
 	private val secretKey: String
 ) {
 

@@ -27,10 +27,10 @@ class JwtAuthenticationProvider(
 			?.also { member ->
 				member.refresh?.let { refresh ->
 					jwtPlugin.validateToken(refresh).getOrElse { throw JwtAuthenticationException(it as Exception) }
-				} ?: throw LogoutUserException(ErrorCode.MEMBER_LOGOUT)
+				} ?: throw JwtAuthenticationException(LogoutUserException(ErrorCode.MEMBER_LOGOUT))
 			}
 			?.let { UserPrincipal(userId, setOf(role), token) }
-			?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+			?: throw JwtAuthenticationException(ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND))
 
 	private fun getAuthentication(userId: String, role: String, token: String) =
 		generateAuthenticationToken(loadUser(userId, role, token))
