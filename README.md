@@ -2,20 +2,21 @@
 
 <div align=center><h1>팀원 소개</h1></div>
 
+
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀장 : 박준성</b></sub></a><br /></td>
-      
-      <td align="center"><a href="https://github.com/MyohanMyolang">
-        <img src="https://github.com/MyohanMyolang" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 전창현</b></sub></a><br /></td>
-      
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 박재은</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 김성민</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀장 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : </b></sub></a><br /></td>
      <tr/>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>BE 부팀장 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>BE 팀원 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>BE 팀원 : </b></sub></a><br /></td>
+    </tr>
   </tbody>
 </table>
-
 
 
 <div align=center><h1>📚 STACKS</h1></div>
