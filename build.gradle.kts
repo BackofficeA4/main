@@ -38,6 +38,8 @@ dependencies {
 	implementation("org.apache.commons:commons-lang3:3.14.0")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
 	runtimeOnly("org.postgresql:postgresql")
 
 	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.7.0")
