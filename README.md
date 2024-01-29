@@ -1,8 +1,25 @@
 # - BackofficeA4 Project -
 
+<div align=center><h1>팀원 소개</h1></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀장 : 박준성</b></sub></a><br /></td>
+      
+      <td align="center"><a href="https://github.com/MyohanMyolang">
+        <img src="https://github.com/MyohanMyolang" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 전창현</b></sub></a><br /></td>
+      
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 박재은</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 김성민</b></sub></a><br /></td>
+     <tr/>
+  </tbody>
+</table>
+
+
+
 <div align=center><h1>📚 STACKS</h1></div>
 <div align=center>
-
 <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/kotlin-339AF0?style=for-the-badge&logo=kotlin&logoColor=white">
 <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
@@ -12,8 +29,6 @@
 <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
 <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
 <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white">
-
-  
 </div>
 
 
