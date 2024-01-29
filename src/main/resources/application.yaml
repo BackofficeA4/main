@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_ID}
+    password: ${POSTGRES_PW}
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+jwt:
+  secret_key: ${JWT_SECRET_KEY}
