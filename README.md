@@ -1,10 +1,13 @@
 # - BackofficeA4 Project -
 
 <div align=center><h1>📚 STACKS</h1></div>
+<div>
 
-<img src="https://img.shields.io/badge/html5-#7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
+<img src="https://img.shields.io/badge/fontawesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white">
 
-<div></div>
+  
+</div>
 
 
 
