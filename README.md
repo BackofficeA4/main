@@ -2,7 +2,7 @@
 
 <div align=center><h1>📚 STACKS</h1></div>
 
-<img src="https://img.shields.io/badge/Kotlin-#7F52FF?style=for-the-badge&logo=Kotlin&logoColor=white">
+<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Kotlin</title><path d="M24 24H0V0h24L12 12Z"/></svg>
 
 <div></div>
 
